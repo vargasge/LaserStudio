@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Láser Studio — Detalles personalizados para tus eventos</title>
+<meta name="description" content="Corte y grabado láser personalizado para bodas, XV años, graduaciones, baby shower y decoración de eventos. Diseños únicos, hechos en Morelia.">
+<meta property="og:title" content="Láser Studio — Detalles personalizados para tus eventos">
+<meta property="og:description" content="Corte y grabado láser personalizado para bodas, XV años, graduaciones, baby shower y decoración de eventos.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15131a;
+    --bg-alt:#1d1a24;
+    --card:#241f2e;
+    --accent:#e8b84b;
+    --accent-soft:#f3d98a;
+    --coral:#ff6f6f;
+    --text:#f3f1f6;
+    --text-dim:#b9b3c4;
+    --border:#332c40;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Poppins',Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Playfair Display',Georgia,serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px;}
+
+  /* Barra superior */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(21,19,26,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1100px;margin:0 auto;}
+  .logo{font-family:'Playfair Display',serif;font-weight:700;font-size:1.4rem;letter-spacing:.5px;}
+  .logo span{color:var(--accent);}
+  .btn-wsp{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent);color:#1a1620;
+    font-weight:700;font-size:.9rem;
+    padding:10px 18px;border-radius:30px;
+    box-shadow:0 4px 14px rgba(232,184,75,.25);
+    transition:transform .15s ease, box-shadow .15s ease;
+    white-space:nowrap;
+  }
+  .btn-wsp:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(232,184,75,.35);}
+  .btn-wsp svg{width:18px;height:18px;fill:#1a1620;}
+
+  /* Hero */
+  .hero{
+    padding:70px 20px 60px;
+    text-align:center;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(255,111,111,.12), transparent 40%),
+      radial-gradient(circle at 80% 10%, rgba(232,184,75,.14), transparent 45%);
+  }
+  .hero .kicker{
+    display:inline-block;color:var(--accent-soft);
+    font-size:.78rem;letter-spacing:2.5px;text-transform:uppercase;
+    font-weight:600;margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(2.2rem,6vw,3.6rem);
+    line-height:1.12;
+    margin-bottom:18px;
+  }
+  .hero h1 em{font-style:normal;color:var(--accent);}
+  .hero p.lead{
+    color:var(--text-dim);font-size:1.08rem;max-width:560px;margin:0 auto 32px;
+  }
+  .hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .btn-outline{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1.5px solid var(--border);
+    padding:13px 24px;border-radius:30px;font-weight:600;font-size:.95rem;
+    color:var(--text);
+  }
+
+  /* franja de ocasiones (scroll horizontal en movil) */
+  .ocasiones-tira{
+    display:flex;gap:10px;overflow-x:auto;padding:0 20px 46px;
+    max-width:1100px;margin:0 auto;
+    scrollbar-width:none;
+  }
+  .ocasiones-tira::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto;
+    background:var(--card);border:1px solid var(--border);
+    padding:9px 18px;border-radius:30px;font-size:.85rem;color:var(--text-dim);
+  }
+
+  section{padding:70px 20px;}
+  .titulo-seccion{text-align:center;margin-bottom:46px;}
+  .titulo-seccion .kicker{
+    color:var(--coral);font-size:.78rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;
+  }
+  .titulo-seccion h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-top:10px;}
+  .titulo-seccion p{color:var(--text-dim);max-width:520px;margin:14px auto 0;}
+
+  /* Categorias */
+  .grid-categorias{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;
+  }
+  .cat-card{
+    background:var(--card);border:1px solid var(--border);border-radius:18px;
+    padding:30px 22px;text-align:center;
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .cat-card:hover{transform:translateY(-4px);border-color:var(--accent);}
+  .cat-card .icono{
+    width:54px;height:54px;margin:0 auto 18px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(232,184,75,.12);border-radius:50%;
+  }
+  .cat-card .icono svg{width:26px;height:26px;stroke:var(--accent);fill:none;stroke-width:1.7;}
+  .cat-card h3{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:8px;}
+  .cat-card p{color:var(--text-dim);font-size:.88rem;}
+
+  /* Como se pide */
+  .pasos{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:26px;
+  }
+  .paso{text-align:center;padding:0 10px;}
+  .paso .num{
+    width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--coral));
+    color:#1a1620;font-weight:800;font-size:1.2rem;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 16px;
+  }
+  .paso h3{font-size:1.05rem;font-weight:600;margin-bottom:8px;font-family:'Poppins',sans-serif;}
+  .paso p{color:var(--text-dim);font-size:.9rem;}
+
+  /* Por que elegirnos */
+  .franja-alt{background:var(--bg-alt);}
+  .bullets{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;max-width:900px;margin:0 auto;}
+  .bullet{display:flex;gap:14px;align-items:flex-start;}
+  .bullet .punto{
+    flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px;
+  }
+  .bullet h4{font-size:1rem;margin-bottom:4px;font-family:'Poppins',sans-serif;font-weight:600;}
+  .bullet p{color:var(--text-dim);font-size:.88rem;}
+
+  /* CTA final */
+  .cta-final{
+    text-align:center;
+    background:linear-gradient(135deg, rgba(232,184,75,.16), rgba(255,111,111,.12));
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  }
+  .cta-final h2{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:14px;}
+  .cta-final p{color:var(--text-dim);margin-bottom:28px;}
+
+  footer{padding:36px 20px;text-align:center;color:var(--text-dim);font-size:.82rem;}
+  footer a{color:var(--accent-soft);}
+  footer .marca-madre{margin-top:6px;opacity:.75;}
+
+  @media (max-width:560px){
+    section{padding:50px 16px;}
+    .hero{padding:50px 16px 40px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">Láser<span>Studio</span></div>
+    <a class="btn-wsp" href="https://wa.me/5214436859057?text=Hola%2C%20vi%20L%C3%A1ser%20Studio%20y%20quiero%20pedir%20un%20detalle%20personalizado" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.8 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.6-.7c.2-.3.4-.2.7-.1l1.6.8c.2.1.4.2.5.3.1.2.1.9-.1 1.5z"/></svg>
+      Pide el tuyo
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">Corte &amp; grabado láser</span>
+    <h1>Detalles que <em>se graban</em><br>en la memoria</h1>
+    <p class="lead">Diseños personalizados en madera y acrílico para bodas, XV años, graduaciones y cualquier evento que merezca algo único.</p>
+    <div class="hero-ctas">
+      <a class="btn-wsp" href="https://wa.me/5214436859057?text=Hola%2C%20vi%20L%C3%A1ser%20Studio%20y%20quiero%20pedir%20un%20detalle%20personalizado" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.8 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.6-.7c.2-.3.4-.2.7-.1l1.6.8c.2.1.4.2.5.3.1.2.1.9-.1 1.5z"/></svg>
+        Cotizar por WhatsApp
+      </a>
+      <a class="btn-outline" href="#categorias">Ver qué hacemos</a>
+    </div>
+  </div>
+</section>
+
+<div class="ocasiones-tira">
+  <span class="chip">💍 Bodas</span>
+  <span class="chip">👑 XV Años</span>
+  <span class="chip">🎓 Graduaciones</span>
+  <span class="chip">🍼 Baby Shower</span>
+  <span class="chip">💀 Día de Muertos</span>
+  <span class="chip">🎉 Decoración de eventos</span>
+  <span class="chip">🏷️ Nombres y letreros</span>
+</div>
+
+<section id="categorias">
+  <div class="wrap">
+    <div class="titulo-seccion">
+      <span class="kicker">Qué hacemos</span>
+      <h2>Un diseño para cada ocasión</h2>
+      <p>Cuéntanos tu idea y la cortamos — en madera, MDF o acrílico, con el acabado que imagines.</p>
+    </div>
+    <div class="grid-categorias">
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.6-9.5-8.3C.8 9.8 1.8 6 5 5c2-.6 3.8.3 5 2 1.2-1.7 3-2.6 5-2 3.2 1 4.2 4.8 2.5 7.7C19 16.4 12 21 12 21z"/></svg></div>
+        <h3>Bodas</h3>
+        <p>Letreros de mesa, topper de pastel, souvenirs y números de mesa a juego con tu decoración.</p>
+      </div>
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><path d="M3 8l4 2 5-6 5 6 4-2-2 11H5L3 8z"/></svg></div>
+        <h3>XV años</h3>
+        <p>Tiaras decorativas, letreros con nombre, centros de mesa y recuerdos para invitados.</p>
+      </div>
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><path d="M12 3L2 8l10 5 8-4v6h2V8L12 3z"/><path d="M6 11v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4"/></svg></div>
+        <h3>Graduaciones</h3>
+        <p>Toppers de birrete, placas de reconocimiento y letreros personalizados con nombre y fecha.</p>
+      </div>
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/></svg></div>
+        <h3>Baby Shower</h3>
+        <p>Letreros "it's a boy/girl", figuras decorativas y detalles para los invitados.</p>
+      </div>
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><path d="M12 2c-2 3-4 5-4 8a4 4 0 008 0c0-3-2-5-4-8z"/><path d="M5 20h14"/></svg></div>
+        <h3>Día de Muertos</h3>
+        <p>Calaveritas con nombre y letreros para altar — temporada de octubre a noviembre.</p>
+      </div>
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></div>
+        <h3>Decoración de eventos</h3>
+        <p>Backdrops, centros de mesa y señalética a la medida de tu tema.</p>
+      </div>
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg></div>
+        <h3>Nombres y letreros</h3>
+        <p>Nombres para puerta, cuna o escritorio — el regalo personalizado más pedido.</p>
+      </div>
+      <div class="cat-card">
+        <div class="icono"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-8-8"/><path d="M12 4v8l6 2"/></svg></div>
+        <h3>Y lo que imagines</h3>
+        <p>Si tienes una idea distinta, mándanos tu referencia y la cotizamos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="franja-alt">
+  <div class="wrap">
+    <div class="titulo-seccion">
+      <span class="kicker">Es muy fácil</span>
+      <h2>Cómo pedir tu detalle</h2>
+    </div>
+    <div class="pasos">
+      <div class="paso">
+        <div class="num">1</div>
+        <h3>Escríbenos</h3>
+        <p>Por WhatsApp, cuéntanos la ocasión y cuántas piezas necesitas.</p>
+      </div>
+      <div class="paso">
+        <div class="num">2</div>
+        <h3>Diseñamos</h3>
+        <p>Te mandamos una propuesta con tu nombre, fecha o texto ya acomodado.</p>
+      </div>
+      <div class="paso">
+        <div class="num">3</div>
+        <h3>Lo recibes</h3>
+        <p>Cortado y listo, a tiempo para tu evento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="titulo-seccion">
+      <span class="kicker">Por qué Láser Studio</span>
+      <h2>Hecho a tu medida, de verdad</h2>
+    </div>
+    <div class="bullets">
+      <div class="bullet">
+        <div class="punto"></div>
+        <div><h4>100% personalizado</h4><p>Cada pieza lleva tu nombre, tu fecha o tu diseño — nada de catálogo genérico.</p></div>
+      </div>
+      <div class="bullet">
+        <div class="punto"></div>
+        <div><h4>Materiales de calidad</h4><p>Madera, MDF y acrílico seleccionados, el mismo material que usamos en nuestros propios muebles.</p></div>
+      </div>
+      <div class="bullet">
+        <div class="punto"></div>
+        <div><h4>Hecho en Morelia</h4><p>Taller propio, sin intermediarios — por eso cumplimos los tiempos de entrega.</p></div>
+      </div>
+      <div class="bullet">
+        <div class="punto"></div>
+        <div><h4>Atención directa</h4><p>Hablas por WhatsApp con quien diseña y corta tu pieza, no con un call center.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <h2>¿Tienes un evento en puerta?</h2>
+    <p>Mándanos tu idea y te decimos cómo se vería.</p>
+    <a class="btn-wsp" href="https://wa.me/5214436859057?text=Hola%2C%20vi%20L%C3%A1ser%20Studio%20y%20quiero%20pedir%20un%20detalle%20personalizado" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.8 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.6-.7c.2-.3.4-.2.7-.1l1.6.8c.2.1.4.2.5.3.1.2.1.9-.1 1.5z"/></svg>
+      Escríbenos ahora
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div>Láser Studio · Morelia, Michoacán</div>
+  <div class="marca-madre">Un proyecto de Triplay y Molduras Los Pinos</div>
+</footer>
+
+</body>
+</html>
