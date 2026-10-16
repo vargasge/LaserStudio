@@ -9,18 +9,17 @@
 <meta property="og:description" content="Corte y grabado láser personalizado para bodas, XV años, graduaciones, baby shower y decoración de eventos. Cotiza tu idea en 1 minuto.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
-<!-- TODO: cuando esté publicada, agregar og:url y og:image con una foto llamativa:
 <meta property="og:url" content="https://laser.triplaylospinos.com/">
-<meta property="og:image" content="https://laser.triplaylospinos.com/portada.jpg">
--->
+<meta property="og:image" content="https://laser.triplaylospinos.com/hero-laser-poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
 <!-- Meta Pixel: pegar aquí el snippet cuando se cree el Pixel en Facebook Business.
      Evento de conversión ya preparado: se dispara fbq('track','Contact') al dar clic en WhatsApp. -->
 
+<link rel="preload" as="image" href="hero-laser-poster.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#15131a;
@@ -279,7 +278,7 @@
     display:inline-flex;align-items:center;justify-content:center;
     width:24px;height:24px;border-radius:50%;
     background:linear-gradient(135deg,var(--accent),var(--coral));
-    color:#1a1620;font-size:.8rem;font-weight:800;margin-right:8px;
+    color:#1a1620;font-size:.8rem;font-weight:700;margin-right:8px;
   }
   .opciones{display:flex;flex-wrap:wrap;gap:10px;}
   .opcion{
@@ -334,7 +333,7 @@
   .paso .num{
     width:46px;height:46px;border-radius:50%;
     background:linear-gradient(135deg,var(--accent),var(--coral));
-    color:#1a1620;font-weight:800;font-size:1.2rem;
+    color:#1a1620;font-weight:700;font-size:1.2rem;
     display:flex;align-items:center;justify-content:center;
     margin:0 auto 16px;
     box-shadow:0 6px 18px rgba(255,111,111,.25);
@@ -408,8 +407,8 @@
 </header>
 
 <section class="hero" id="hero">
-  <video class="hero-video" id="vidA" autoplay muted loop playsinline preload="auto" src="hero-laser.mp4"></video>
-  <video class="hero-video hero-video-b" id="vidB" muted loop playsinline preload="auto" src="hero-laser.mp4"></video>
+  <video class="hero-video" id="vidA" autoplay muted loop playsinline preload="auto" poster="hero-laser-poster.jpg" src="hero-laser.mp4"></video>
+  <video class="hero-video hero-video-b" id="vidB" muted loop playsinline preload="metadata" src="hero-laser.mp4"></video>
   <div class="hero-sombra"></div>
   <div id="glow"></div>
   <canvas id="laserFx"></canvas>
