@@ -50,8 +50,7 @@
   /* ---------- Barra superior ---------- */
   header{
     position:sticky;top:0;z-index:50;
-    background:rgba(21,19,26,.88);
-    backdrop-filter:blur(10px);
+    background:rgba(21,19,26,.96);
     border-bottom:1px solid var(--border);
   }
   .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1100px;margin:0 auto;}
@@ -102,9 +101,7 @@
   .hero-video{
     position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;z-index:0;
-    filter:brightness(.9) saturate(1.15);
   }
-  .hero-video-b{opacity:0;}
   /* velo oscuro para que el texto se lea sobre el video */
   .hero-sombra{
     position:absolute;inset:0;z-index:1;
@@ -204,7 +201,6 @@
     padding:30px 22px;text-align:center;
     transition:border-color .18s ease, box-shadow .18s ease;
     transform-style:preserve-3d;
-    will-change:transform;
   }
   .cat-card:hover{border-color:var(--accent);box-shadow:0 14px 34px rgba(0,0,0,.35);}
   .cat-card .icono{
@@ -407,8 +403,7 @@
 </header>
 
 <section class="hero" id="hero">
-  <video class="hero-video" id="vidA" autoplay muted loop playsinline preload="auto" poster="hero-laser-poster.jpg" src="hero-laser.mp4"></video>
-  <video class="hero-video hero-video-b" id="vidB" muted loop playsinline preload="metadata" src="hero-laser.mp4"></video>
+  <video class="hero-video" id="vidA" autoplay muted loop playsinline preload="metadata" poster="hero-laser-poster.jpg" src="hero-laser.mp4"></video>
   <div class="hero-sombra"></div>
   <div id="glow"></div>
   <canvas id="laserFx"></canvas>
@@ -902,13 +897,13 @@
     var ctx = canvas.getContext("2d");
     var W = 0, H = 0;
     function medir(){
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var dpr = 1;
       W = hero.clientWidth; H = hero.clientHeight;
       canvas.width = W * dpr; canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     medir();
-    window.addEventListener("resize", medir);
+    var rt; window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(medir, 200); });
 
     var COLORES = ["#ffffff", "#ffe9a8", "#e8b84b", "#ff9a3c", "#ff6f6f"];
     function azar(a, b){ return a + Math.random() * (b - a); }
@@ -916,9 +911,9 @@
     function linea(x1, y1, x2, y2){ ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); }
 
     var chispas = [], estela = [], brasas = [];
-    var haz = null, espera = 12, corriendo = true;
+    var haz = null, espera = 12, corriendo = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    for(var i = 0; i < 26; i++){
+    for(var i = 0; i < 12; i++){
       brasas.push({x: azar(0, 1200), y: azar(0, 700), r: azar(.6, 2), v: azar(.1, .45),
                    deriva: azar(-.3, .3), a: azar(.12, .5), fase: azar(0, 6.28)});
     }
@@ -939,7 +934,6 @@
 
       /* brasas flotando (ambiente permanente) */
       var tiempo = performance.now() / 1000;
-      ctx.shadowBlur = 0;
       for(var b = 0; b < brasas.length; b++){
         var br = brasas[b];
         br.y -= br.v; br.x += br.deriva + Math.sin(tiempo + br.fase) * .25;
@@ -967,18 +961,15 @@
         grad.addColorStop(0, "rgba(232,184,75,0)");
         grad.addColorStop(.65, "rgba(232,184,75,.85)");
         grad.addColorStop(1, "rgba(255,255,255,1)");
-        ctx.strokeStyle = grad; ctx.lineWidth = 3;
-        ctx.shadowColor = "#e8b84b"; ctx.shadowBlur = 18;
+        ctx.strokeStyle = grad; ctx.lineWidth = 7; ctx.globalAlpha = .25; linea(hx - dx * cola, hy - dy * cola, hx, hy); ctx.globalAlpha = 1; ctx.lineWidth = 3;
         linea(hx - dx * cola, hy - dy * cola, hx, hy);
         /* nucleo blanco */
-        ctx.strokeStyle = "rgba(255,255,255,.95)"; ctx.lineWidth = 1.1; ctx.shadowBlur = 8;
-        linea(hx - dx * cola * .45, hy - dy * cola * .45, hx, hy);
+        ctx.strokeStyle = "rgba(255,255,255,.95)"; ctx.lineWidth = 1.1; linea(hx - dx * cola * .45, hy - dy * cola * .45, hx, hy);
         /* punto de corte */
-        ctx.fillStyle = "#fff"; ctx.shadowColor = "#fff"; ctx.shadowBlur = 34;
-        ctx.beginPath(); ctx.arc(hx, hy, 4.2, 0, 6.283); ctx.fill();
+        ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(hx, hy, 4.2, 0, 6.283); ctx.fill(); ctx.globalAlpha = .25; ctx.beginPath(); ctx.arc(hx, hy, 12, 0, 6.283); ctx.fill(); ctx.globalAlpha = 1;
 
         /* chispas que vuelan del punto de corte */
-        var n = 12 + ((Math.random() * 8) | 0);
+        var n = 4 + ((Math.random() * 4) | 0);
         for(var s = 0; s < n; s++){
           chispas.push({
             x: hx, y: hy,
@@ -998,7 +989,6 @@
         estela[e].vida -= .011;
         if(estela[e].vida <= 0) estela.splice(e, 1);
       }
-      ctx.shadowBlur = 0;
       for(var t = 1; t < estela.length; t++){
         var pa = estela[t - 1], pb = estela[t];
         ctx.strokeStyle = "rgba(255,140,60," + (Math.min(pa.vida, pb.vida) * .5) + ")";
@@ -1013,23 +1003,18 @@
         if(ch.vida <= 0 || ch.y > H + 12){ chispas.splice(c, 1); continue; }
         ctx.globalAlpha = ch.vida;
         ctx.strokeStyle = ch.color; ctx.lineWidth = ch.grosor;
-        ctx.shadowColor = ch.color; ctx.shadowBlur = 6;
         linea(ch.x, ch.y, ch.x - ch.vx * 1.8, ch.y - ch.vy * 1.8);
       }
       ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0;
       ctx.globalCompositeOperation = "source-over";
     }
-    var ultimoCuadro = 0;
-    (function lazo(){
+    var ultimo = 0;
+    (function lazo(t){
       requestAnimationFrame(lazo);
-      ultimoCuadro = performance.now();
+      if(!corriendo || t - ultimo < 33) return;
+      ultimo = t;
       cuadro();
-    })();
-    /* respaldo: si el navegador pausa requestAnimationFrame, el intervalo mantiene el show */
-    setInterval(function(){
-      if(performance.now() - ultimoCuadro > 100) cuadro();
-    }, 33);
+    })(0);
 
     /* pausar cuando el hero no esta visible (ahorra bateria) */
     new IntersectionObserver(function(entradas){
@@ -1040,50 +1025,21 @@
     });
   })();
 
-  /* ----- Video del hero: camara lenta + loop sin corte visible -----
-     Dos copias desfasadas a la mitad; la copia B cubre con fundido
-     el punto donde A se reinicia, y viceversa. */
+  /* ----- Video del hero: un solo video, camara lenta, pausado si no se ve ----- */
   (function(){
     var A = document.getElementById("vidA");
-    var B = document.getElementById("vidB");
-    var RITMO = .65;
-    var D = 0, F = .9, listo = false;
-
-    function arrancar(v){
-      v.playbackRate = RITMO;
-      var p = v.play();
-      if(p && p.catch) p.catch(function(){});
+    var reducir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var ahorro = navigator.connection && navigator.connection.saveData;
+    if(reducir || ahorro){ A.removeAttribute("autoplay"); A.pause(); return; }
+    A.playbackRate = .65;
+    var visible = true;
+    function ajustar(){
+      if(visible && !document.hidden){ var p = A.play(); if(p && p.catch) p.catch(function(){}); }
+      else A.pause();
     }
-    arrancar(A);
-
-    function prepararB(){
-      if(listo || !D) return;
-      B.currentTime = D / 2;
-      arrancar(B);
-      listo = true;
-    }
-    A.addEventListener("loadedmetadata", function(){
-      D = A.duration || 0;
-      F = Math.min(.9, D * .25);
-      prepararB();
-    });
-    B.addEventListener("loadedmetadata", prepararB);
-
-    function mezcla(){
-      requestAnimationFrame(mezcla);
-      if(!listo || !D) return;
-      var t = A.currentTime;
-      /* resincronizar B por si se desfasa */
-      var esperado = (t + D / 2) % D;
-      if(Math.abs(B.currentTime - esperado) > .3) B.currentTime = esperado;
-      /* alfa de B: 1 en los extremos (cubre el corte de A), 0 a la mitad */
-      var alfa;
-      if(t < F) alfa = 1 - t / F;
-      else if(t > D - F) alfa = (t - (D - F)) / F;
-      else alfa = 0;
-      B.style.opacity = alfa.toFixed(3);
-    }
-    requestAnimationFrame(mezcla);
+    new IntersectionObserver(function(en){ visible = en[0].isIntersecting; ajustar(); }, {threshold:0}).observe(hero);
+    document.addEventListener("visibilitychange", ajustar);
+    ajustar();
   })();
 })();
 </script>
