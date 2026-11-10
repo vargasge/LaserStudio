@@ -71,12 +71,12 @@
   .btn-wsp::after{
     content:"";position:absolute;top:-40%;left:-70%;width:40%;height:180%;
     background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
-    transform:skewX(-20deg);
+    transform:translateX(0) skewX(-20deg);
     animation:destello 3.2s ease-in-out infinite;
   }
   @keyframes destello{
-    0%,55%{left:-70%;}
-    80%,100%{left:130%;}
+    0%,55%{transform:translateX(0) skewX(-20deg);}
+    80%,100%{transform:translateX(500%) skewX(-20deg);}
   }
 
   /* ---------- Hero ---------- */
@@ -103,6 +103,13 @@
     object-fit:cover;z-index:0;
   }
   /* velo oscuro para que el texto se lea sobre el video */
+  .ligero .hero-video{display:none;}
+  .ligero #laserFx{display:none;}
+  .ligero .hero{background:url("hero-laser-poster.jpg") center/cover no-repeat;}
+  .ligero .cat-card{transform:none !important;}
+  .ligero .marquee-pista{animation:none;}
+  .ligero .btn-wsp::after,.ligero .wsp-flotante::before{animation:none;}
+  .ligero .hero .wrap *{animation-duration:.01s !important;animation-delay:0s !important;}
   .hero-sombra{
     position:absolute;inset:0;z-index:1;
     background:linear-gradient(to bottom, rgba(21,19,26,.62), rgba(21,19,26,.42) 45%, rgba(21,19,26,.93) 100%);
@@ -752,6 +759,7 @@
   "use strict";
   var WSP = "5214436859057";
   var esTouch = window.matchMedia("(hover: none)").matches;
+  var ligero = false; /* modo ligero: sin video ni chispas, solo la foto del hero */
 
   /* ----- Marquee: duplicar contenido para loop infinito ----- */
   var pista = document.getElementById("marqueePista");
@@ -928,7 +936,7 @@
     }
 
     function cuadro(){
-      if(!corriendo) return;
+      if(!corriendo || ligero) return;
       ctx.clearRect(0, 0, W, H);
       ctx.globalCompositeOperation = "lighter";
 
@@ -1011,7 +1019,7 @@
     var ultimo = 0;
     (function lazo(t){
       requestAnimationFrame(lazo);
-      if(!corriendo || t - ultimo < 33) return;
+      if(!corriendo || ligero || t - ultimo < 33) return;
       ultimo = t;
       cuadro();
     })(0);
@@ -1034,12 +1042,49 @@
     A.playbackRate = .65;
     var visible = true;
     function ajustar(){
-      if(visible && !document.hidden){ var p = A.play(); if(p && p.catch) p.catch(function(){}); }
+      if(visible && !document.hidden && !ligero){ var p = A.play(); if(p && p.catch) p.catch(function(){}); }
       else A.pause();
     }
     new IntersectionObserver(function(en){ visible = en[0].isIntersecting; ajustar(); }, {threshold:0}).observe(hero);
     document.addEventListener("visibilitychange", ajustar);
     ajustar();
+    /* el gobernador llama a esto al activar el modo ligero */
+    window.__ajustarVideo = ajustar;
+  })();
+
+  /* ----- Gobernador de rendimiento: si el equipo no da la talla, version ligera ----- */
+  (function(){
+    var cores = navigator.hardwareConcurrency || 8, mem = navigator.deviceMemory || 8;
+    var lento = navigator.connection && /(^|-)2g$/.test(navigator.connection.effectiveType || "");
+    function activar(){
+      if(ligero) return;
+      ligero = true;
+      document.documentElement.classList.add("ligero");
+      var cv = document.getElementById("laserFx");
+      cv.getContext("2d").clearRect(0, 0, cv.width, cv.height);
+      if(window.__ajustarVideo) window.__ajustarVideo();
+    }
+    if(cores <= 2 || mem <= 2 || lento){ activar(); return; }
+
+    /* mide fluidez real: ventanas de 2 s mientras el hero se ve y la pestana esta activa */
+    var visibleHero = true, mal = 0;
+    new IntersectionObserver(function(en){ visibleHero = en[0].isIntersecting; }, {threshold:.2}).observe(hero);
+    var n = 0, t0 = 0, ultimoT = 0;
+    function medir(t){
+      if(ligero) return;
+      requestAnimationFrame(medir);
+      if(document.hidden || !visibleHero || (ultimoT && t - ultimoT > 400)){ n = 0; t0 = 0; ultimoT = t; return; }
+      ultimoT = t;
+      if(!t0){ t0 = t; n = 0; return; }
+      n++;
+      if(t - t0 >= 2000){
+        var fps = n * 1000 / (t - t0);
+        if(fps < 28) mal++; else mal = 0;
+        if(mal >= 2) activar();
+        t0 = t; n = 0;
+      }
+    }
+    setTimeout(function(){ requestAnimationFrame(medir); }, 1500);
   })();
 })();
 </script>
